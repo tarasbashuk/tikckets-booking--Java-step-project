@@ -1,0 +1,3 @@
+{Booking id: 7ac027df-4933-4c7e-9f04-ee098b94c85e, flight: MyFamilyTrip, booked by: Slava Stepanchuk, passengers: [ {Slava Stepanchuk} {Nastia Stepanchuk} ]}
+{Booking id: 847f9d5e-9dd8-4e5d-8c65-a697db955601, flight: IvanovToAmsterdam, booked by: Oleksandr Ivanov, passengers: [ {Oleksandr Ivanov} ]}
+{Booking id: 1a3d24c9-d37b-47ef-968c-7f31cd29fc9f, flight: NastyaToStambul, booked by: Nastia Stepanchuk, passengers: [ {Nastia Stepanchuk} ]}
