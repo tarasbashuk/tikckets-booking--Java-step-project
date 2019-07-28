@@ -1,7 +1,9 @@
 package entities;
 
 
-public class Passenger {
+import java.io.Serializable;
+
+public class Passenger implements Serializable {
 //    private final String id;
     private final String name;
     private final String surname;
