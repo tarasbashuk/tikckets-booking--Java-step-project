@@ -10,11 +10,11 @@ import java.util.function.Consumer;
 public class BookingController {
     private final BookingService service = new BookingService();
 
-    public List<Booking> getAllBookings(){
+    public List<Booking> getAllBookings() {
         return service.getAllBookings();
     }
 
-    public boolean makeBooking(String flight, Passenger bookedBy, Passenger... passengers){
+    public boolean makeBooking(String flight, Passenger bookedBy, Passenger... passengers) {
         return service.makeBooking(flight, bookedBy, passengers);
     }
 
@@ -30,15 +30,17 @@ public class BookingController {
         return service.cancelBooking(booking);
     }
 
-    public void save(){
+    public void save() {
         service.save();
     }
 
+
+// TODO Delete before release
+
 //    public static void main(String[] args) {
+//
+//        System.out.println("=========CREATING THREE INITIAL BOOKINGS DEV PURPOSE ONLY============");
 //        BookingController bookingMgr = new BookingController();
-//
-//        System.out.println("=================================================================");
-//
 //        Passenger ps1 = new Passenger("Slava", "Stepanchuk");
 //        Passenger ps2 = new Passenger("Nastia", "Stepanchuk");
 //        Passenger ps3 = new Passenger("Oleksandr", "Ivanov");
@@ -46,9 +48,7 @@ public class BookingController {
 //        bookingMgr.makeBooking("MyFamilyTrip", ps1,ps1,ps2,ps1,ps1);
 //        bookingMgr.makeBooking("IvanovToAmsterdam", ps3, ps3);
 //        bookingMgr.makeBooking("NastyaToStambul", ps2, ps2);
-//
-//        System.out.println("=================================================================");
-//
+//        bookingMgr.save();
 //        List<Booking> allBookings = bookingMgr.getAllBookings();
 //        allBookings.forEach(new Consumer<Booking>() {
 //            @Override
@@ -56,8 +56,5 @@ public class BookingController {
 //                System.out.println(booking);
 //            }
 //        });
-//
-//        System.out.println("=================================================================");
-//        bookingMgr.save();
 //    }
 }
