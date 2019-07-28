@@ -56,27 +56,44 @@ public class BookingDAO implements DAO<Booking> {
         }
     }
 
-    public void retrieveData() throws IOException {
-        FileReader fr = new FileReader(file);
-        BufferedReader br = new BufferedReader(fr);
+    public void retrieveInitialData() {
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            if (fis.available() > 0) {
+                ObjectInputStream ois = new ObjectInputStream(fis);
 
-        String line;
-        while ((line = br.readLine()) != null) {
-            System.out.println(line);
+                List data = (ArrayList) ois.readObject();
+                data.forEach(o -> {
+                    Booking bkg = (Booking) o;
+                    map.put(bkg.getId(), bkg);
+                });
+                ois.close();
+                fis.close();
+            }
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("Bookings.txt file not found");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("Error while initializing stream");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
-    public void saveData() throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-        map.forEach((key, value) -> {
-            try {
-                bw.write(value.toString());
-                bw.newLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        bw.close();
+    public void saveData() {
+        try {
+            FileOutputStream f = new FileOutputStream(file);
+            ObjectOutputStream o = new ObjectOutputStream(f);
+            o.writeObject(new ArrayList<>(map.values()));
+            o.close();
+            f.close();
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("Bookings.txt file not found");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("Error while initializing stream");
+
+        }
     }
 }
 

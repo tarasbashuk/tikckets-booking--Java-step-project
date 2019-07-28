@@ -8,4 +8,6 @@ public interface DAO<T> {
     boolean insert(T item);
     boolean update(T item);
     boolean remove(T item);
+    void retrieveInitialData();
+    void saveData();
 }

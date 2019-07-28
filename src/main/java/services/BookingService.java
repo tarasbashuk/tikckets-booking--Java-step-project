@@ -4,7 +4,6 @@ import dao.BookingDAO;
 import entities.Booking;
 import entities.Passenger;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,12 +12,7 @@ public class BookingService {
 
     public BookingService(){
         data = new BookingDAO();
-        try {
-            data.retrieveData();
-        } catch (IOException e) {
-            System.out.println(e);
-            throw new IllegalArgumentException("UNHANDLED IOEXCEPTION");
-        }
+        data.retrieveInitialData();
     }
 
     public List<Booking> getAllBookings(){
@@ -57,11 +51,8 @@ public class BookingService {
     }
 
     public void save(){
-        try {
-            data.saveData();
-        } catch (IOException e) {
-            throw new IllegalArgumentException("UNHANDLED IOEXCEPTION");
-        }
+        data.saveData();
+
     }
 
 }

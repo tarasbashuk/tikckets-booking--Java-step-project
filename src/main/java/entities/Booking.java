@@ -1,10 +1,11 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class Booking {
+public class Booking implements Serializable {
     private final String id;
     private final Passenger bookedBy;
     private final String flight;
