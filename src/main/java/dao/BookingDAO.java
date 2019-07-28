@@ -6,8 +6,17 @@ import java.io.*;
 import java.util.*;
 
 public class BookingDAO implements DAO<Booking> {
-    private final File file = new File("./data", "bookings.txt");
-    private final HashMap<String, Booking> map = new HashMap<>();
+    private final File file;
+    private final HashMap<String, Booking> map;
+
+    public BookingDAO(){
+        this(new File("./data", "bookings.txt"));
+    }
+
+    public BookingDAO (File file){
+        this.file = file;
+        this.map = new HashMap<>();
+    }
 
     public Booking get(String id) {
         return map.get(id);
