@@ -27,6 +27,7 @@ public class BookingDAO implements DAO<Booking> {
     }
 
     public boolean insert(Booking booking) {
+        if (booking == null) throw new IllegalArgumentException("Invalid insert arguments: null is not accepted");
         String id = booking.getId();
         if (map.containsKey(id)) {
             return false;
@@ -37,6 +38,7 @@ public class BookingDAO implements DAO<Booking> {
     }
 
     public boolean update(Booking booking) {
+        if (booking == null) throw new IllegalArgumentException("Invalid insert arguments: null is not accepted");
         String id = booking.getId();
         if (map.containsKey(id)) {
             map.put(id, booking);
@@ -47,6 +49,7 @@ public class BookingDAO implements DAO<Booking> {
     }
 
     public boolean remove(String id) {
+        if (id == null) throw new IllegalArgumentException("Invalid insert arguments: null is not accepted");
         if (map.containsKey(id)) {
             map.remove(id);
             return true;
@@ -56,6 +59,7 @@ public class BookingDAO implements DAO<Booking> {
     }
 
     public boolean remove(Booking booking) {
+        if (booking == null) throw new IllegalArgumentException("Invalid insert arguments: null is not accepted");
         String id = booking.getId();
         if (map.containsKey(id)) {
             map.remove(id);
