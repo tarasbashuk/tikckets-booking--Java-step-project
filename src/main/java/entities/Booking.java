@@ -43,6 +43,10 @@ public class Booking implements Serializable {
         }
     }
 
+    public String getFlight() {
+        return flight;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

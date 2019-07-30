@@ -3,8 +3,13 @@ package dao;
 import entities.Booking;
 import entities.Passenger;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,15 +21,20 @@ class BookingDAOTest {
     private Booking b1;
     private Booking b2;
     private Booking b3;
-    private Passenger p1;
-    private Passenger p2;
+    private static Passenger p1;
+    private static Passenger p2;
+    private static Passenger p3;
 
+    @BeforeAll
+    static void beforeAll(){
+        p1 = new Passenger("Slava", "Stepanchuk");
+        p2 = new Passenger("Nastia", "Stepanchuk");
+        p3 = new Passenger("Oleksandr", "Ivanov");
+
+    }
 
     @BeforeEach
     void beforeEach(){
-        p1 = new Passenger("Slava", "Stepanchuk");
-        p2 = new Passenger("Nastia", "Stepanchuk");
-        Passenger p3 = new Passenger("Oleksandr", "Ivanov");
         b1 = new Booking("FamilyTrip", p1);
         b1.addPassenger(p1);
         b1.addPassenger(p2);
@@ -82,12 +92,36 @@ class BookingDAOTest {
     }
 
     @Test
-    void remove1() {
+    void remove_by_string() {
         dao.remove(b2.getId());
         List<Booking> result = dao.getAll();
         assertEquals(1, result.size());
         assertTrue(result.contains(b1));
         assertFalse(result.contains(b2));
         assertThrows(IllegalArgumentException.class, ()->dao.insert(null));
+    }
+
+    @Test
+    void save_and_restore_from_file() {
+        File source = new File("./src/test/data", "bookingsTest.txt");
+
+        try {
+            PrintWriter writer = new PrintWriter(source);
+            writer.print("");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        BookingDAO bookings = new BookingDAO(source);
+        bookings.insert(b1);
+        bookings.insert(b2);
+        bookings.saveData();
+        BookingDAO newBookings = new BookingDAO(source);
+        newBookings.retrieveInitialData();
+        List<Booking> result = newBookings.getAll();
+        assertEquals(2, result.size());
+        assertTrue(result.contains(b1));
+        assertTrue(result.contains(b2));
     }
 }

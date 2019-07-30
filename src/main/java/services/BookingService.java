@@ -4,6 +4,7 @@ import dao.BookingDAO;
 import entities.Booking;
 import entities.Passenger;
 
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,11 @@ public class BookingService {
     private final BookingDAO data;
 
     public BookingService(){
-        data = new BookingDAO();
+        this(new File("./data", "bookings.txt"));
+    }
+
+    public BookingService(File file){
+        data = new BookingDAO(file);
         data.retrieveInitialData();
     }
 
@@ -20,15 +25,20 @@ public class BookingService {
     }
 
     public boolean makeBooking(String flight, Passenger bookedBy, Passenger... passengers){
+        Booking booking = new Booking(flight, bookedBy);
+        if (passengers == null) throw new IllegalArgumentException("Invalid arguments: passengers can't be null");
         if (passengers.length > 0) {
-            Booking booking = new Booking(flight, bookedBy);
             for (Passenger person: passengers) {
-                booking.addPassenger(person);
+                if (person == null) {
+                    throw new IllegalArgumentException("Invalid arguments: passengers can't be null");
+                } else {
+                    booking.addPassenger(person);
+                }
             }
-            return data.insert(booking);
         } else {
-            throw new IllegalArgumentException("Invalid booking: at least one flying passenger is required");
+            booking.addPassenger(bookedBy);
         }
+        return data.insert(booking);
     }
 
     public List<Booking> getFlightsOfPassenger(Passenger passenger) {

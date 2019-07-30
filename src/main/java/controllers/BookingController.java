@@ -4,11 +4,20 @@ import entities.Booking;
 import entities.Passenger;
 import services.BookingService;
 
+import java.io.File;
 import java.util.List;
-import java.util.function.Consumer;
+
 
 public class BookingController {
-    private final BookingService service = new BookingService();
+    private final BookingService service;
+
+    public BookingController(){
+        this(new File("./data", "bookings.txt"));
+    }
+
+    public BookingController(File file){
+        service = new BookingService(file);
+    }
 
     public List<Booking> getAllBookings() {
         return service.getAllBookings();
