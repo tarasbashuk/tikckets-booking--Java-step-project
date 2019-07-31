@@ -12,10 +12,10 @@ public class Booking implements Serializable {
     private final Set<Passenger> passengers = new HashSet<>();
 
     public Booking(String flight, Passenger bookedBy) {
-        this(UUID.randomUUID().toString(), flight, bookedBy);
+        this(flight, bookedBy, UUID.randomUUID().toString());
     }
 
-    public Booking(String id, String flight, Passenger bookedBy) {
+    public Booking(String flight, Passenger bookedBy, String id) {
         if (flight != null && bookedBy != null) {
             this.id = id;
             this.bookedBy = bookedBy;
@@ -38,7 +38,13 @@ public class Booking implements Serializable {
     }
 
     public void addPassenger (Passenger psg){
-        passengers.add(psg);
+        if (psg !=null) {
+            passengers.add(psg);
+        }
+    }
+
+    public String getFlight() {
+        return flight;
     }
 
     @Override
