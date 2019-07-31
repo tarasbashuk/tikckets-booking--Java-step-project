@@ -7,7 +7,7 @@ import java.util.Date;
 public class Flight {
     private final String flightNumber;
     private final String from;
-    private final String to;
+    private final String destination;
     private final Date date;
     private int seats;
 
@@ -16,16 +16,24 @@ public class Flight {
     private SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
 
-    public Flight(String flightNumber, String from, String to, String date, int seats) throws ParseException {
+    public Flight(String flightNumber, String from, String destination, String date, int seats) throws ParseException {
         this.flightNumber = flightNumber;
         this.from = from;
-        this.to = to;
+        this.destination = destination;
         this.date = format.parse(date);
         this.seats = seats;
     }
 
-    public String getDate() {
-        return formatDate.format(date);
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public String getTime() {
@@ -36,7 +44,7 @@ public class Flight {
         return seats;
     }
 
-    public boolean bookedSeats(int bookedSeats) {
+    public boolean bookeSeats(int bookedSeats) {
         if (this.seats - bookedSeats < 0) {
             return false;
         }
@@ -55,7 +63,7 @@ public class Flight {
         sb.append(", from: ");
         sb.append(from);
         sb.append(", to: ");
-        sb.append(to);
+        sb.append(destination);
         sb.append(", date: ");
         sb.append(formatDate.format(date));
         sb.append(", at: ");
