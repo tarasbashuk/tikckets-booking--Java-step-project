@@ -1,10 +1,11 @@
 package entities;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Flight {
+public class Flight implements Serializable {
     private final String flightNumber;
     private final String from;
     private final String destination;

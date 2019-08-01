@@ -12,25 +12,25 @@ import java.util.stream.Collectors;
 public class FlightService {
     private final FlightDAO data;
 
-//    public FlightService() {
-//        this(new File("./data", "flights.txt"));
-//    }
-
-//    public FlightService(File file) {
-//        data = new FlightDAO(file);
-//        data.retrieveInitialData();
-//    }
-//FOR DEV PURPOSE ONLY///
-        public FlightService(HashMap<String, Flight> map) {
-        data = new FlightDAO(map);
+    public FlightService() {
+        this(new File("./data", "flights.txt"));
     }
+
+    public FlightService(File file) {
+        data = new FlightDAO(file);
+        data.retrieveInitialData();
+    }
+//FOR DEV PURPOSE ONLY///
+//        public FlightService(HashMap<String, Flight> map) {
+//        data = new FlightDAO(map);
+//    }
 
 
     public List<Flight> getAllFlights() {
         return data.getAll();
     }
 
-    public List<Flight> getSuitableFlights(String destination, Date date, int requiredSeatsQuantity) {
+    public List<Flight> getSuitableFlights(String destination,  Date date, int requiredSeatsQuantity) {
         return data
                 .getAll()
                 .stream()
@@ -49,6 +49,7 @@ public class FlightService {
     public boolean bookeSeats(int requiredSeatsQuantity, String flightNumber) {
         if (flightNumber == null) throw new IllegalArgumentException("Invalid arguments: flight number can't be null");
         Flight flight = data.get(flightNumber);
+        System.out.println(flight);
 
         ///Probably unnecessary check///
 

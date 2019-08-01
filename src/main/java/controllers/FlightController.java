@@ -14,17 +14,17 @@ import java.util.List;
 public class FlightController {
     private final FlightService service;
 
-//    public FlightController(){
-//        this(new File("./data", "flights.txt"));
-//    }
-//
-//    public FlightController(File file){
-//        service = new FlightService(file);
-//    }
-//FOR DEV PURPOSE ONLY///
-        public FlightController(HashMap<String, Flight> map){
-        service = new FlightService(map);
+    public FlightController(){
+        this(new File("./data", "flights.txt"));
     }
+
+    public FlightController(File file){
+        service = new FlightService(file);
+    }
+//FOR DEV PURPOSE ONLY///
+//        public FlightController(HashMap<String, Flight> map){
+//        service = new FlightService(map);
+//    }
 
     public List<Flight> getAllFlights() {
         return service.getAllFlights();
@@ -42,7 +42,7 @@ public class FlightController {
         return service.returnSeats(returningSeatsQuantity, flightNumber);
     }
 
-
+//
 //    public void save() {
 //        service.save();
 //    }
@@ -56,27 +56,32 @@ public class FlightController {
         System.out.println(format.format(date));
         System.out.println("=========CREATING THREE INITIAL FLIGHTS DEV PURPOSE ONLY============");
 
-        Flight lh1 = new Flight("LH123", "kyiv", "san-francisko", "30.08.2019-12:00", 300);
-        Flight lh2 = new Flight("LH222", "kyiv", "barcelona", "01.08.2019-12:00", 250);
-        Flight lh3 = new Flight("LH333", "kyiv", "palma", "03.08.2019-12:00", 200);
-        HashMap<String, Flight> map = new HashMap<>();
-        map.put(lh1.getFlightNumber(), lh1);
-        map.put(lh2.getFlightNumber(), lh3);
-        map.put(lh3.getFlightNumber(), lh3);
-        FlightDAO flDAO = new FlightDAO(map);
+//        Flight lh1 = new Flight("LH123", "kyiv", "san-francisko", "30.08.2019-12:00", 300);
+//        Flight lh2 = new Flight("LH222", "kyiv", "barcelona", "01.08.2019-12:00", 250);
+//        Flight lh3 = new Flight("LH333", "kyiv", "palma", "03.08.2019-12:00", 200);
+//        HashMap<String, Flight> map = new HashMap<>();
+//        map.put(lh1.getFlightNumber(), lh1);
+//        map.put(lh2.getFlightNumber(), lh3);
+//        map.put(lh3.getFlightNumber(), lh3);
 
-        FlightController flightMgr = new FlightController(map);
+
+        FlightDAO flDAO = new FlightDAO();
+        FlightService flService = new FlightService();
+
+        FlightController flightMgr = new FlightController();
 
         System.out.println(flightMgr.getAllFlights());
 
-        System.out.println(flightMgr.getSuitableFlights("barcelona", date , 300));
+        System.out.println(flightMgr.getSuitableFlights("barcelona", date, 300));
 
-        System.out.println(lh2.getDate().equals(date));
+//        System.out.println(lh2.getDate().equals(date));
+//
+//        System.out.println(lh2.getDestination().equals("barcelona"));
 
-        flightMgr.bookeSeats(5, "LH222");
+        flightMgr.bookeSeats(5, "LH123");
         System.out.println(flightMgr.getAllFlights());
-        flightMgr.returnSeats(3, "LH222");
-        System.out.println(flightMgr.getAllFlights());
+//        flightMgr.returnSeats(3, "LH222");
+//        System.out.println(flightMgr.getAllFlights());
 
     }
 }

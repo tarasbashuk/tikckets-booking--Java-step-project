@@ -9,23 +9,23 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FlightDAO {
-//    private final File file;
+    private final File file;
     private final HashMap<String, Flight> map;
 
-//    public FlightDAO(){
-//        this(new File("./data", "flights.txt"));
-//    }
+    public FlightDAO(){
+        this(new File("./data", "flights.txt"));
+    }
 
-//    public FlightDAO (File file){
-////        this.file = file;
-////        this.map = new HashMap<>();
-////    }
+    public FlightDAO (File file){
+        this.file = file;
+        this.map = new HashMap<>();
+    }
 
 //FOR DEV PURPOSE ONLY///
 
-    public FlightDAO (HashMap<String, Flight> map){
-        this.map = map;
-    }
+//    public FlightDAO (HashMap<String, Flight> map){
+//        this.map = map;
+//    }
 
 
     public Flight get(String flightNumber) {
@@ -73,44 +73,44 @@ public class FlightDAO {
 //        return false;
     }
 
-//    public void retrieveInitialData() {
-//        try {
-//            FileInputStream fis = new FileInputStream(file);
-//            if (fis.available() > 0) {
-//                ObjectInputStream ois = new ObjectInputStream(fis);
-//
-//                List data = (ArrayList) ois.readObject();
-//                data.forEach(o -> {
-//                    Flight flight = (Flight) o;
-//                    map.put(flight.getFlightNumber(), flight);
-//                });
-//                ois.close();
-//                fis.close();
-//            }
-//        } catch (FileNotFoundException e) {
-//            throw new IllegalArgumentException("Flights.txt file not found");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            throw new IllegalArgumentException("Error while initializing stream");
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void saveData() {
-//        try {
-//            FileOutputStream f = new FileOutputStream(file);
-//            ObjectOutputStream o = new ObjectOutputStream(f);
-//            o.writeObject(new ArrayList<>(map.values()));
-//            o.close();
-//            f.close();
-//        } catch (FileNotFoundException e) {
-//            throw new IllegalArgumentException("Flights.txt file not found");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            throw new IllegalArgumentException("Error while initializing stream");
-//
-//        }
-//    }
+    public void retrieveInitialData() {
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            if (fis.available() > 0) {
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                List data = (ArrayList) ois.readObject();
+                data.forEach(o -> {
+                    Flight flight = (Flight) o;
+                    map.put(flight.getFlightNumber(), flight);
+                });
+                ois.close();
+                fis.close();
+            }
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("Flights.txt file not found");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("Error while initializing stream");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveData() {
+        try {
+            FileOutputStream f = new FileOutputStream(file);
+            ObjectOutputStream o = new ObjectOutputStream(f);
+            o.writeObject(new ArrayList<>(map.values()));
+            o.close();
+            f.close();
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("Flights.txt file not found");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("Error while initializing stream");
+
+        }
+    }
 
 }
