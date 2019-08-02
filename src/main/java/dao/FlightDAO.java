@@ -1,6 +1,5 @@
 package dao;
 
-import entities.Booking;
 import entities.Flight;
 
 import java.io.*;
@@ -21,12 +20,6 @@ public class FlightDAO {
         this.map = new HashMap<>();
     }
 
-//FOR DEV PURPOSE ONLY///
-
-//    public FlightDAO (HashMap<String, Flight> map){
-//        this.map = map;
-//    }
-
 
     public Flight get(String flightNumber) {
         return map.get(flightNumber);
@@ -37,7 +30,6 @@ public class FlightDAO {
     }
 
     public boolean insert(Flight flight) {
-        // WE NO NEED TO IMPLEMENT THIS METHOD
         if (flight == null) throw new IllegalArgumentException("Invalid insert arguments: null is not accepted");
         String flightNumber = flight.getFlightNumber();
         if (map.containsKey(flightNumber)) {
@@ -46,7 +38,6 @@ public class FlightDAO {
             map.put(flightNumber, flight);
             return true;
         }
-//        return false;
     }
 
     public boolean update(Flight flight) {
@@ -58,11 +49,9 @@ public class FlightDAO {
         } else {
             return false;
         }
-//        return false;
     }
 
     public boolean remove(String flightNumber) {
-        // WE NO NEED TO IMPLEMENT THIS METHOD
         if (flightNumber == null) throw new IllegalArgumentException("Invalid insert arguments: null is not accepted");
         if (map.containsKey(flightNumber)) {
             map.remove(flightNumber);
@@ -70,7 +59,6 @@ public class FlightDAO {
         } else {
             return false;
         }
-//        return false;
     }
 
     public void retrieveInitialData() {

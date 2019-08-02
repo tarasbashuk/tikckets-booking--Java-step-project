@@ -33,8 +33,8 @@ public class Flight implements Serializable {
         return destination;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDate() {
+        return formatDate.format(date);
     }
 
     public String getTime() {
@@ -55,6 +55,7 @@ public class Flight implements Serializable {
     public void returnSeats(int bookedSeats) {
         this.seats += bookedSeats;
     }
+
 
     @Override
     public String toString() {
@@ -91,8 +92,4 @@ public class Flight implements Serializable {
     }
 
 
-    public static void main(String[] args) throws ParseException {
-        Flight sf = new Flight("LH123", "kyiv", "san-francisko", "30.07.2019-12:00", 300);
-        System.out.println(sf.toString());
-    }
 }

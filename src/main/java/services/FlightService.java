@@ -4,13 +4,14 @@ import dao.FlightDAO;
 import entities.Flight;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FlightService {
     private final FlightDAO data;
+    private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
     public FlightService() {
         this(new File("./data", "flights.txt"));
@@ -20,11 +21,6 @@ public class FlightService {
         data = new FlightDAO(file);
         data.retrieveInitialData();
     }
-//FOR DEV PURPOSE ONLY///
-//        public FlightService(HashMap<String, Flight> map) {
-//        data = new FlightDAO(map);
-//    }
-
 
     public List<Flight> getAllFlights() {
         return data.getAll();
@@ -38,7 +34,7 @@ public class FlightService {
                         flight.getDestination().equals(destination)
                 ))
                 .filter(flight -> (
-                        flight.getDate().equals(date)
+                        flight.getDate().equals(format.format(date))
                 ))
                 .filter(flight -> (
                         flight.getSeats() >= requiredSeatsQuantity
@@ -49,9 +45,6 @@ public class FlightService {
     public boolean bookeSeats(int requiredSeatsQuantity, String flightNumber) {
         if (flightNumber == null) throw new IllegalArgumentException("Invalid arguments: flight number can't be null");
         Flight flight = data.get(flightNumber);
-        System.out.println(flight);
-
-        ///Probably unnecessary check///
 
         if (!flight.bookeSeats(requiredSeatsQuantity)) return false;
 
@@ -68,10 +61,9 @@ public class FlightService {
         return data.update(flight);
     }
 
-//
-//    public void save() {
-//        data.saveData();
-//
-//    }
+    public void save() {
+        data.saveData();
+
+    }
 
 }
