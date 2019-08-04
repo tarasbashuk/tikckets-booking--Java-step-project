@@ -4,14 +4,12 @@ import dao.FlightDAO;
 import entities.Flight;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FlightService {
     private final FlightDAO data;
-    private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
     public FlightService() {
         this(new File("./data", "flights.txt"));
@@ -26,7 +24,7 @@ public class FlightService {
         return data.getAll();
     }
 
-    public List<Flight> getSuitableFlights(String destination,  Date date, int requiredSeatsQuantity) {
+    public List<Flight> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
         return data
                 .getAll()
                 .stream()
@@ -34,12 +32,36 @@ public class FlightService {
                         flight.getDestination().equals(destination)
                 ))
                 .filter(flight -> (
-                        flight.getDate().equals(format.format(date))
+                        flight.getDateString().equals(date)
                 ))
                 .filter(flight -> (
                         flight.getSeats() >= requiredSeatsQuantity
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public List<Flight> getNearestFlights() {
+        Date dateNow = new Date();
+        Date after24Hours = new Date(dateNow.getTime() + 86400000);
+        return data
+                .getAll()
+                .stream()
+                .filter(flight -> (
+                        flight.getDate().after(dateNow)
+                ))
+                  .filter(flight -> (
+                        flight.getDate().before(after24Hours)
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public Flight getFlightByNumber(String flightNumber) {
+        return data.getAll()
+                .stream()
+                .filter(flight -> (
+                        flight.getFlightNumber().equals(flightNumber)
+                ))
+                .collect(Collectors.toList()).get(0);
     }
 
     public boolean bookeSeats(int requiredSeatsQuantity, String flightNumber) {
