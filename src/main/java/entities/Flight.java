@@ -33,8 +33,12 @@ public class Flight implements Serializable {
         return destination;
     }
 
-    public String getDate() {
+    public String getDateString() {
         return formatDate.format(date);
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public String getTime() {
