@@ -34,11 +34,13 @@ public class UserService {
         }
     }
 
-    public Passenger getPassengerData (String login, String password){
-        if (login == null | password == null) throw new IllegalArgumentException("Invalid input: null can't be accepted as an argument");
+    public Passenger getPassengerData (String login, String password) {
+        if (login == null | password == null)
+            throw new IllegalArgumentException("Invalid input: null can't be accepted as an argument");
         User user = data.get(login);
-        if (user.checkPassword(password)) return user.getPassengerData();
-        else return null;
+        if (user == null) { return null;
+    } else if (user.checkPassword(password)) {return user.getPassengerData();
+        } else return null;
     }
 
 
