@@ -44,7 +44,7 @@ public class UserDAO {
     }
 
     public boolean update(User user) {
-        if (user == null) throw new IllegalArgumentException("Invallogin insert arguments: null is not accepted");
+        if (user == null) throw new IllegalArgumentException("Invalid insert arguments: null is not accepted");
         String login = user.getLogin();
         if (map.containsKey(login)) {
             map.put(login, user);
@@ -55,7 +55,7 @@ public class UserDAO {
     }
 
     public boolean remove(String login) {
-        if (login == null) throw new IllegalArgumentException("Invallogin insert arguments: null is not accepted");
+        if (login == null) throw new IllegalArgumentException("Invalid insert arguments: null is not accepted");
         if (map.containsKey(login)) {
             map.remove(login);
             return true;
@@ -65,7 +65,7 @@ public class UserDAO {
     }
 
     public boolean remove(User user) {
-        if (user == null) throw new IllegalArgumentException("Invallogin insert arguments: null is not accepted");
+        if (user == null) throw new IllegalArgumentException("Invalid insert arguments: null is not accepted");
         String login = user.getLogin();
         if (map.containsKey(login)) {
             map.remove(login);
