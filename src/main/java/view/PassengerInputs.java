@@ -6,8 +6,8 @@ public class PassengerInputs {
     // validators must be added;
     private Scanner scan = new Scanner(System.in);
 
+
     public int getMenuItem() {
-        System.out.println("Enter number of menu item to navigate through the application");
         int item = scan.nextInt();
         return item;
     }
@@ -33,14 +33,25 @@ public class PassengerInputs {
     }
 
 
+    public String getLogin() {
+        System.out.println("Enter the login");
+        return scan.next();
+    }
+
+
+    public String getPassword() {
+        System.out.println("Enter the password");
+        return scan.next();
+    }
+
     public String getName() {
         System.out.println("Enter your name");
-        return scan.nextLine();
+        return scan.next();
     }
 
     public String getSurname() {
         System.out.println("Enter your surname");
-        return scan.nextLine();
+        return scan.next();
     }
 
     public String getFlightId() {
@@ -48,7 +59,7 @@ public class PassengerInputs {
         return scan.nextLine();
     }
 
-// validators goes here
+    // validators goes here
     private String validateDestination(String city) {
         String cityAgain = scan.nextLine();
         if (city.length() < 2) {
