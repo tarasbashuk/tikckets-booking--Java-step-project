@@ -4,7 +4,6 @@ package entities;
 import java.io.Serializable;
 
 public class Passenger implements Serializable {
-//    private final String id;
     private final String name;
     private final String surname;
 
@@ -18,9 +17,6 @@ public class Passenger implements Serializable {
         }
     }
 
-//    public String getId(){
-//        return this.id;
-//    }
 
     public String getFullName(){
         return String.format("%s %s", name, surname);
@@ -28,7 +24,6 @@ public class Passenger implements Serializable {
 
     @Override
     public int hashCode() {
-//        return id.hashCode();
         return this.getFullName().hashCode();
     }
 
@@ -44,7 +39,6 @@ public class Passenger implements Serializable {
 
     @Override
     public String toString() {
-//        return String.format("{Passenger id: %s, full name: %s}", id, this.getFullName());
         return String.format("{%s}", this.getFullName());
     }
 
