@@ -49,7 +49,7 @@ public class FlightService {
                 .filter(flight -> (
                         flight.getDate().after(dateNow)
                 ))
-                  .filter(flight -> (
+                .filter(flight -> (
                         flight.getDate().before(after24Hours)
                 ))
                 .collect(Collectors.toList());

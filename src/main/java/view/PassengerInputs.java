@@ -56,7 +56,11 @@ public class PassengerInputs {
 
     public String getFlightId() {
         System.out.println("Enter your flight ID");
-        return scan.nextLine();
+        return scan.next();
+    }
+    public String getBookingId() {
+        System.out.println("Enter your booking ID");
+        return scan.next();
     }
 
     // validators goes here

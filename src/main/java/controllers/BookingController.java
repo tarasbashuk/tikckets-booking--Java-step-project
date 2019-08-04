@@ -12,11 +12,11 @@ import java.util.function.Consumer;
 public class BookingController {
     private final BookingService service;
 
-    public BookingController(){
+    public BookingController() {
         this(new File("./data", "bookings.txt"));
     }
 
-    public BookingController(File file){
+    public BookingController(File file) {
         service = new BookingService(file);
     }
 
@@ -55,7 +55,7 @@ public class BookingController {
         Passenger ps2 = new Passenger("Nastia", "Stepanchuk");
         Passenger ps3 = new Passenger("Oleksandr", "Ivanov");
 
-        bookingMgr.makeBooking("MyFamilyTrip", ps1,ps1,ps2,ps1,ps1);
+        bookingMgr.makeBooking("MyFamilyTrip", ps1, ps1, ps2, ps1, ps1);
         bookingMgr.makeBooking("IvanovToAmsterdam", ps3, ps3);
         bookingMgr.makeBooking("NastyaToStambul", ps2, ps2);
         bookingMgr.save();
