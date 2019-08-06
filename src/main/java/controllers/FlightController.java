@@ -35,8 +35,8 @@ public class FlightController {
         return service.getNearestFlights();
     }
 
-    public boolean bookeSeats(int requiredSeatsQuantity, String flightNumber) {
-        return service.bookeSeats(requiredSeatsQuantity, flightNumber);
+    public boolean bookSeats(int requiredSeatsQuantity, String flightNumber) {
+        return service.bookSeats(requiredSeatsQuantity, flightNumber);
     }
 
     public boolean returnSeats(int returningSeatsQuantity, String flightNumber) {

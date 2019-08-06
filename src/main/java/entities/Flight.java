@@ -49,7 +49,7 @@ public class Flight implements Serializable {
         return seats;
     }
 
-    public boolean bookeSeats(int bookedSeats) {
+    public boolean bookSeats(int bookedSeats) {
         if (this.seats - bookedSeats < 0) {
             return false;
         }

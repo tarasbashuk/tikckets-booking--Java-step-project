@@ -85,7 +85,7 @@ public class ConsoleView {
                 Flight flight = suitableFlights.get(pi.getMenuItem() - 1);
 
                 bc.makeBooking(flight.getFlightNumber(), new Passenger(pi.getName(), pi.getSurname()));
-                fc.bookeSeats(ticketsQuantity,
+                fc.bookSeats(ticketsQuantity,
                         flight.getFlightNumber());
                 break;
             case 4:
