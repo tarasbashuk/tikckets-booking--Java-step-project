@@ -36,7 +36,7 @@ public class FlightController {
     }
 
     public boolean bookeSeats(int requiredSeatsQuantity, String flightNumber) {
-        return service.bookeSeats(requiredSeatsQuantity, flightNumber);
+        return service.bookSeats(requiredSeatsQuantity, flightNumber);
     }
 
     public boolean returnSeats(int returningSeatsQuantity, String flightNumber) {

@@ -64,11 +64,11 @@ public class FlightService {
                 .collect(Collectors.toList()).get(0);
     }
 
-    public boolean bookeSeats(int requiredSeatsQuantity, String flightNumber) {
+    public boolean bookSeats(int requiredSeatsQuantity, String flightNumber) {
         if (flightNumber == null) throw new IllegalArgumentException("Invalid arguments: flight number can't be null");
         Flight flight = data.get(flightNumber);
 
-        if (!flight.bookeSeats(requiredSeatsQuantity)) return false;
+        if (!flight.bookSeats(requiredSeatsQuantity)) return false;
 
         return data.update(flight);
 

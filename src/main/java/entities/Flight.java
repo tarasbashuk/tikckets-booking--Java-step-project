@@ -17,12 +17,16 @@ public class Flight implements Serializable {
     private SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
 
-    public Flight(String flightNumber, String from, String destination, String date, int seats) throws ParseException {
-        this.flightNumber = flightNumber;
-        this.from = from;
-        this.destination = destination;
-        this.date = format.parse(date);
-        this.seats = seats;
+    public Flight(String flightNumber, String from, String destination, String date, int seats) throws ParseException, IllegalArgumentException {
+        if (flightNumber != null && from != null && destination != null && date != null && seats >= 0) {
+            this.flightNumber = flightNumber;
+            this.from = from;
+            this.destination = destination;
+            this.date = format.parse(date);
+            this.seats = seats;
+        } else {
+            throw new IllegalArgumentException("Invalid arguments: null is not accepted");
+        }
     }
 
     public String getFlightNumber() {
@@ -49,13 +53,14 @@ public class Flight implements Serializable {
         return seats;
     }
 
-    public boolean bookeSeats(int bookedSeats) {
+    public boolean bookSeats(int bookedSeats) {
         if (this.seats - bookedSeats < 0) {
             return false;
         }
         this.seats -= bookedSeats;
         return true;
     }
+
     public void returnSeats(int bookedSeats) {
         this.seats += bookedSeats;
     }
@@ -96,4 +101,9 @@ public class Flight implements Serializable {
     }
 
 
+    public static void main(String[] args) throws ParseException {
+       Flight flight = new Flight("XX222", "barcelona", "kyiv", "05.08.2019-12:00", 100);
+        System.out.println(flight.getDate());
+        System.out.println(flight.hashCode());
+    }
 }
