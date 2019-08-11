@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.Date;
+import java.util.List;
 
 public interface AirTrip {
     String getDestination();
@@ -9,6 +10,5 @@ public interface AirTrip {
     Date getDepart();
     Date getArrival();
     int getSeats();
-    boolean bookSeats(int bookedSeats);
-    void returnSeats(int returnedSeats);
+    List<Flight> getDirectFlights();
 }

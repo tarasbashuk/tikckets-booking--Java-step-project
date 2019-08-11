@@ -3,7 +3,9 @@ package entities;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Flight implements Serializable, AirTrip {
     private final String flightNumber;
@@ -74,6 +76,12 @@ public class Flight implements Serializable, AirTrip {
     }
     public void returnSeats(int bookedSeats) {
         this.seats += bookedSeats;
+    }
+
+    public List<Flight> getDirectFlights(){
+        List<Flight> result = new ArrayList<>();
+        result.add(this);
+        return result;
     }
 
 
