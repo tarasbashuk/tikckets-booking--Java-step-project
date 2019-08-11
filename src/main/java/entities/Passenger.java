@@ -18,8 +18,16 @@ public class Passenger implements Serializable {
     }
 
 
-    public String getFullName(){
+    public String getFullName() {
         return String.format("%s %s", name, surname);
+    }
+
+    public String getName() {
+        return String.format("%s", name);
+    }
+
+    public String getSurname() {
+        return String.format("%s", surname);
     }
 
     @Override
