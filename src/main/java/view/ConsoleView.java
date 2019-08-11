@@ -2,6 +2,7 @@ package view;
 
 import controllers.BookingController;
 import controllers.FlightController;
+import entities.AirTrip;
 import entities.Flight;
 import entities.Passenger;
 import services.UserService;
@@ -79,10 +80,10 @@ public class ConsoleView {
                 String destination = pi.getDestination();
                 String date = pi.getDate();
                 int ticketsQuantity = pi.getTicketsQuantity();
-                List<Flight> suitableFlights = fc.getSuitableFlights(destination, date, ticketsQuantity);
+                List<AirTrip> suitableFlights = fc.getSuitableFlights(destination, date, ticketsQuantity);
                 suitableFlights.forEach(f -> System.out.println(flightNumber.getAndIncrement() + " . " + f));
 
-                Flight flight = suitableFlights.get(pi.getMenuItem() - 1);
+                AirTrip flight = suitableFlights.get(pi.getMenuItem() - 1);
 
                 bc.makeBooking(flight.getFlightNumber(), new Passenger(pi.getName(), pi.getSurname()));
                 fc.bookSeats(ticketsQuantity,
@@ -90,8 +91,8 @@ public class ConsoleView {
                 break;
             case 4:
                 // cancel booking
-                String flightId = pi.getBookingId();
-                bc.cancelBooking(flightId);
+//                String flightId = pi.getBookingId();
+//                bc.cancelBooking(flightId);
 
 
                 //fc.returnSeats(flightId);

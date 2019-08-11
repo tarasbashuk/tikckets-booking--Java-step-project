@@ -5,11 +5,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Flight implements Serializable {
+public class Flight implements Serializable, AirTrip {
     private final String flightNumber;
     private final String from;
     private final String destination;
-    private final Date date;
+    private final Date depart;
+    private final Date arrival;
     private int seats;
 
     private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy-HH:mm");
@@ -17,11 +18,12 @@ public class Flight implements Serializable {
     private SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
 
-    public Flight(String flightNumber, String from, String destination, String date, int seats) throws ParseException {
+    public Flight(String flightNumber, String from, String destination, String depart, String arrival, int seats) throws ParseException {
         this.flightNumber = flightNumber;
         this.from = from;
         this.destination = destination;
-        this.date = format.parse(date);
+        this.depart = format.parse(depart);
+        this.arrival = format.parse(arrival);
         this.seats = seats;
     }
 
@@ -33,16 +35,30 @@ public class Flight implements Serializable {
         return destination;
     }
 
-    public String getDateString() {
-        return formatDate.format(date);
+    @Override
+    public String getFrom() {
+        return from;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDepartString() {
+        return formatDate.format(depart);
     }
 
-    public String getTime() {
-        return formatTime.format(date);
+    public Date getDepart() {
+        return depart;
+    }
+
+    public String getDepartTime() {
+        return formatTime.format(depart);
+    }
+
+    @Override
+    public Date getArrival() {
+        return arrival;
+    }
+
+    public String getArrivalTime() {
+        return formatTime.format(arrival);
     }
 
     public int getSeats() {
@@ -70,10 +86,14 @@ public class Flight implements Serializable {
         sb.append(from);
         sb.append(", to: ");
         sb.append(destination);
-        sb.append(", date: ");
-        sb.append(formatDate.format(date));
+        sb.append(", departure: ");
+        sb.append(formatDate.format(depart));
         sb.append(", at: ");
-        sb.append(formatTime.format(date));
+        sb.append(getDepartTime());
+        sb.append(", arrival: ");
+        sb.append(formatDate.format(arrival));
+        sb.append(", at: ");
+        sb.append(getArrivalTime());
         sb.append(", seats available: ");
         sb.append(seats);
         sb.append("}");
@@ -94,6 +114,5 @@ public class Flight implements Serializable {
     public int hashCode() {
         return this.flightNumber.hashCode();
     }
-
 
 }

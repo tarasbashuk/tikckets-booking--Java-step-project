@@ -1,6 +1,7 @@
 package controllers;
 
 import dao.FlightDAO;
+import entities.AirTrip;
 import entities.Flight;
 import services.FlightService;
 
@@ -23,7 +24,7 @@ public class FlightController {
         return service.getAllFlights();
     }
 
-    public List<Flight> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
+    public List<AirTrip> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
         return service.getSuitableFlights(destination, date, requiredSeatsQuantity);
     }
 

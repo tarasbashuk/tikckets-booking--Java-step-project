@@ -5,7 +5,9 @@ import dao.FlightDAO;
 import entities.Flight;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -213,10 +215,12 @@ public class FlightsRandomaizer {
     };
     private final int arraySize = destinations.length;
     private final int quantity;
+    private final int lastMonthInSchedule;
 
 
-    public FlightsRandomaizer(int quantity) {
+    public FlightsRandomaizer(int quantity, int lastMonthInSchedule) {
         this.quantity = quantity;
+        this.lastMonthInSchedule = lastMonthInSchedule;
     }
 
     int generateValueFromRange(int min, int max) {
@@ -227,8 +231,12 @@ public class FlightsRandomaizer {
 
     public List<Flight> get() throws ParseException {
         ArrayList<Flight> flights = new ArrayList<>();
-        for (int i = 0; i < quantity; i++) {
-            flights.add(generateNewFlight());
+        int homeQuantity = (int)(quantity * 0.3);
+        for (int i = 0; i < homeQuantity; i++) {
+            flights.add(generateNewFlight("kyiv"));
+        }
+        for (int i = homeQuantity; i < quantity; i++) {
+            flights.add(generateNewFlight(null));
         }
         return flights;
     }
@@ -243,41 +251,61 @@ public class FlightsRandomaizer {
 
     private String generateDate() {
         int day = generateValueFromRange(1, 30);
-        int month = generateValueFromRange(8, 12);
+        int month = generateValueFromRange(8, lastMonthInSchedule);
+        int hour = generateValueFromRange(0, 24);
+
+        return createStringDate(day,month,2019,hour);
+    }
+
+    private String generateArrivalTime(String date) {
+        int tripTime = generateValueFromRange(1,6) * (60 * 60 * 1000);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy-HH:mm");
+
+        try {
+            Date depart = dateFormatter.parse(date);
+            Date arrival = new Date(depart.getTime() + tripTime);
+            return dateFormatter.format(arrival);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Error while parsing date from string");
+        }
+    }
+
+    private String createStringDate(int day, int month, int year, int hour) {
         String dayString = Integer.toString(day);
         if (dayString.length() == 1) dayString = "0"+dayString;
         String monthString = Integer.toString(month);
         if (monthString.length() == 1) monthString = "0"+monthString;
+        String yearString = Integer.toString(year);
+        String hourString = Integer.toString(month);
+        if (hourString.length() == 1) hourString = "0"+hourString;
 
-        int hour = generateValueFromRange(0, 24);
-        StringBuilder sb = new StringBuilder();
-        sb.append(dayString);
-        sb.append(".");
-        sb.append(monthString);
-        sb.append(".");
-        sb.append("2019");
-        sb.append("-");
-        sb.append(hour);
-        sb.append(":");
-        sb.append("00");
-        return sb.toString();
+        return dayString + "." + monthString + "." + yearString + "-" + hourString + ":" + "00";
     }
 
-    private Flight generateNewFlight() throws ParseException {
+    private Flight generateNewFlight(String homeCity) throws ParseException {
         int id = generateValueFromRange(100, 1000);
         String destination = destinations[generateValueFromRange(0, arraySize)];
         int seatsMin = 100;
         int seatsMax = 350;
         int seats = generateValueFromRange(seatsMin, seatsMax);
-        String from = "kyiv";
+        String from;
+        if (homeCity == null) {
+            from = destinations[generateValueFromRange(0, arraySize)];
+            while (from.equals(destination)) {
+                from = destinations[generateValueFromRange(0, arraySize)];
+            }
+        } else {
+            from = homeCity;
+        }
         String flightNumber = generateFlightNumber(from, destination, id);
-        String date = generateDate();
-        return new Flight(flightNumber, from, destination, date, seats);
+        String depart = generateDate();
+        String arrival = generateArrivalTime(depart);
+        return new Flight(flightNumber, from, destination, depart, arrival, seats);
     }
 
 
     public static void main(String[] args) throws ParseException {
-        FlightsRandomaizer newFlights = new FlightsRandomaizer(1000);
+        FlightsRandomaizer newFlights = new FlightsRandomaizer(1000, 10);
         List<Flight> flights = newFlights.get();
         FlightDAO flDAO = new FlightDAO();
         for (int i = 0; i < flights.size(); i++) {
