@@ -29,14 +29,14 @@ public class FlightService {
         return data
                 .getAll()
                 .stream()
-                .filter(flight -> (
-                        flight.getDestination().equals(destination)
+                .filter(trip -> (
+                        trip.getDestination().equals(destination)
                 ))
-                .filter(flight -> (
-                        flight.getDepartString().equals(date)
+                .filter(trip -> (
+                        trip.getDepartString().equals(date)
                 ))
-                .filter(flight -> (
-                        flight.getSeats() >= requiredSeatsQuantity
+                .filter(trip -> (
+                        trip.getSeats() >= requiredSeatsQuantity
                 ))
                 .collect(Collectors.toList());
     }
@@ -83,6 +83,14 @@ public class FlightService {
 
         flight.returnSeats(returningSeatsQuantity);
         return data.update(flight);
+    }
+
+    public List<Flight> getAllTripsWithinTimeRange(Date d1, Date d2){
+        return data
+                .getAll()
+                .stream()
+                .filter(trip->trip.getDepart().after(d1) & trip.getArrival().before(d2))
+                .collect(Collectors.toList());
     }
 
     public void save() {

@@ -3,7 +3,6 @@ package entities;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.*;
-import java.util.function.Consumer;
 
 public class FlightConnection implements Serializable, AirTrip {
     private final ArrayList<Flight> storage;
