@@ -1,6 +1,7 @@
 package controllers;
 
 import dao.FlightDAO;
+import entities.AirTrip;
 import entities.Flight;
 import services.FlightService;
 
@@ -23,7 +24,7 @@ public class FlightController {
         return service.getAllFlights();
     }
 
-    public List<Flight> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
+    public List<AirTrip> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
         return service.getSuitableFlights(destination, date, requiredSeatsQuantity);
     }
 
@@ -35,8 +36,8 @@ public class FlightController {
         return service.getNearestFlights();
     }
 
-    public boolean bookeSeats(int requiredSeatsQuantity, String flightNumber) {
-        return service.bookeSeats(requiredSeatsQuantity, flightNumber);
+    public boolean bookSeats(int requiredSeatsQuantity, String flightNumber) {
+        return service.bookSeats(requiredSeatsQuantity, flightNumber);
     }
 
     public boolean returnSeats(int returningSeatsQuantity, String flightNumber) {
