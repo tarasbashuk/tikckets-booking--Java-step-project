@@ -1,6 +1,7 @@
 package dao;
 
 import entities.Booking;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import java.io.*;
 import java.util.*;
@@ -48,13 +49,18 @@ public class BookingDAO implements DAO<Booking> {
         }
     }
 
-    public boolean remove(String id) {
+    public Booking remove(String id) {
         if (id == null) throw new IllegalArgumentException("Invalid insert arguments: null is not accepted");
-        if (map.containsKey(id)) {
-            map.remove(id);
-            return true;
-        } else {
-            return false;
+        try{
+            Booking booking = null;
+            if (map.containsKey(id)) {
+                booking = map.get(id);
+                map.remove(id);
+            }
+            return  booking;
+        } catch (IllegalArgumentException e){
+            e.printStackTrace();
+            throw new IllegalArgumentException("Such booking is not found");
         }
     }
 

@@ -1,12 +1,14 @@
 package logger;
 
+import sun.rmi.runtime.Log;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Logger {
     private final File file;
-    private final HashMap<String, ArrayList<String>> passangersLogHistory;
+    private final HashMap<String, ArrayList<String>> passengersLogHistory;
     private ArrayList<String> historyArray;
 
     public Logger() {
@@ -15,12 +17,12 @@ public class Logger {
 
     public Logger(File file) {
         this.file = file;
-        this.passangersLogHistory = new HashMap<>();
+        this.passengersLogHistory = new HashMap<>();
 
     }
 
     public ArrayList<String> LogHistory(String login) {
-        return passangersLogHistory.get(login);
+        return passengersLogHistory.get(login);
 
     }
 
@@ -30,14 +32,14 @@ public class Logger {
         }
 
 
-        if (passangersLogHistory.containsKey(login)) {
-            historyArray = passangersLogHistory.get(login);
+        if (passengersLogHistory.containsKey(login)) {
+            historyArray = passengersLogHistory.get(login);
             historyArray.add(action);
-            passangersLogHistory.put(login, historyArray);
+            passengersLogHistory.put(login, historyArray);
         } else {
             historyArray = new ArrayList<String>();
             historyArray.add(action);
-            passangersLogHistory.put(login, historyArray);
+            passengersLogHistory.put(login, historyArray);
         }
     }
 
@@ -46,9 +48,16 @@ public class Logger {
         try {
             FileOutputStream f = new FileOutputStream(file);
             ObjectOutputStream o = new ObjectOutputStream(f);
-            o.writeObject(passangersLogHistory);
+            o.writeObject(passengersLogHistory);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+//    public static void main(String[] args) {
+//        //TODO remove after testing
+//        Logger logger = new Logger();
+//        ArrayList<String> history = logger.LogHistory("Rd");
+//        System.out.println(history);
+//    }
 }

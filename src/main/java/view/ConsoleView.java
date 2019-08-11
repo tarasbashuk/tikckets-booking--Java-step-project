@@ -1,42 +1,40 @@
 package view;
 
-import controllers.BookingController;
-import controllers.FlightController;
-import controllers.UserController;
-import entities.Flight;
+import controllers.ConsoleController;
 import entities.Passenger;
 import logger.Logger;
-import services.UserService;
 
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConsoleView {
-    // here Passenger's input and Controllers must combine
-    UserController uc = new UserController();
-    BookingController bc = new BookingController();
     PassengerInputs pi = new PassengerInputs();
-    FlightController fc = new FlightController();
-    private boolean isAuthorized = false;
     Logger logger = new Logger();
+    private ConsoleController CC = new ConsoleController();
     private Passenger passenger;
-    private String currentUser;
-
+    private boolean isAuthorized = false;
 
     public void startApp() {
         System.out.println("Press 1 to Register new user");
         System.out.println("Press 2 to Authorize");
         System.out.println("Press 3 to continue without Authorization");
-
         switch (pi.getMenuItem()) {
             case 1:
-                System.out.println("Registration");
-                System.out.println("\n");
-                startRegistration();
+                System.out.println("Registration:\n");
+                passenger = CC.startRegistration();
+                System.out.println(passenger);
+                isAuthorized = true;
+                this.showMenu();
                 break;
             case 2:
-                System.out.println("Authorization:");
-                startAuthorization();
+                System.out.println("Authorization:\n");
+                passenger = CC.startAuthorization();
+                if (passenger == null) {
+                    System.out.println("Wrong data");
+                    System.exit(0);
+                }
+                isAuthorized = true;
+                System.out.println(passenger);
+                this.showMenu();
+                isAuthorized = true;
             case 3:
                 this.showMenu();
                 break;
@@ -44,24 +42,6 @@ public class ConsoleView {
                 System.out.println("Bye");
                 System.exit(0);
         }
-    }
-
-    private void startAuthorization() {
-        String login = pi.getLogin();
-        String password = pi.getPassword();
-        passenger = uc.getPassengerData(login, password);
-        isAuthorized = true;
-        System.out.println(passenger);
-    }
-
-    public void startRegistration() {
-        String login = pi.getLogin();
-        String password = pi.getPassword();
-        String name = pi.getName();
-        String surname = pi.getSurname();
-        passenger = uc.createUser(login, password, name, surname);
-        isAuthorized = true;
-        System.out.println(passenger);
     }
 
     public void showMenu() {
@@ -73,126 +53,54 @@ public class ConsoleView {
         System.out.println("4.Cancel Booking;");
         System.out.println("5.My Flights ;");
         System.out.println("6.Exit;");
+        if (isAuthorized) {
+            System.out.println("7.Logout");
+        }
         this.menuItemReader();
     }
 
 
-    public void getNearestFlight() {
-        List<Flight> nearestFlights = fc.getNearestFlights();
-        nearestFlights.forEach(System.out::println);
-    }
-
-    public void getFlightByIdAndShowIt() {
-        Flight flightByNumber =
-                fc.getFlightByNumber(pi.getFlightId());
-        System.out.println(flightByNumber);
-    }
-
-    public void searchAndBooking() {
-        AtomicInteger flightNumber = new AtomicInteger(1);
-        String destination = pi.getDestination();
-        String date = pi.getDate();
-        int ticketsQuantity = pi.getTicketsQuantity();
-        List<Flight> suitableFlights = fc.getSuitableFlights(destination, date, ticketsQuantity);
-        suitableFlights.forEach(f -> System.out.println(flightNumber.getAndIncrement() + " . " + f));
-
-        Flight flight = suitableFlights.get(pi.getMenuItem() - 1);
-
-        bc.makeBooking(flight.getFlightNumber(), new Passenger(pi.getName(), pi.getSurname()));
-        fc.bookeSeats(ticketsQuantity,
-                flight.getFlightNumber());
-    }
-
-
     public void menuItemReader() {
-
-        if (isAuthorized) {
-            switch (pi.getMenuItem()) {
-                case 1:
-                    // get flight for 24 hours
-                    getNearestFlight();
-                    logger.add("sdfdsf", "asdsd");
-                    break;
-                case 2:
-                    // get flight by id
-                    // then show all the info about flight(date, time, destination, free seats)
-                    getFlightByIdAndShowIt();
-                    break;
-                case 3:
-                    // Search for the flight and booking
-                    searchAndBooking();
-                    break;
-                case 4:
-                    // cancel booking
-                    String flightId = pi.getBookingId();
-                    bc.cancelBooking(flightId);
-                    // TODO
-                    //fc.returnSeats(flightId);
-                    break;
-                case 5:
-                    // get my bookings
-                    String name = pi.getName();
-                    String surname = pi.getSurname();
-                    System.out.println(bc.getFlightsOfPassenger(new Passenger(name, surname)));
-                    break;
-                case 6:
-                    // exit
+        switch (pi.getMenuItem()) {
+            case 1:
+                CC.getNearestFlight();
+                if (isAuthorized) logger.add(passenger.getName(), "Searched for nearest flight");
+                break;
+            case 2:
+                CC.getFlightByIdAndShowIt();
+                if (isAuthorized) logger.add(passenger.getName(), "Got flight by Id");
+                break;
+            case 3:
+                CC.searchAndBooking();
+                if (isAuthorized) logger.add(passenger.getName(), "Searched and Booked");
+                break;
+            case 4:
+                CC.cancelBooking();
+                if (isAuthorized) logger.add(passenger.getName(), "Cancelled booking");
+                break;
+            case 5:
+                CC.getBookingsOfPassenger(passenger, isAuthorized);
+                if (isAuthorized) logger.add(passenger.getName(), "Searched for own bookings");
+                break;
+            case 6:
+                CC.saveChanges(isAuthorized);
+                if (isAuthorized) logger.save();
+                System.exit(1);
+                break;
+            case 7:
+                CC.saveChanges(isAuthorized);
+                if (isAuthorized) {
                     logger.save();
-                    fc.save();
-                    bc.save();
+                    passenger = null;
+                    isAuthorized = false;
+                    this.startApp();
+                } else {
                     System.exit(1);
-                    break;
-                case 7:
-                    logger.save();
-                    //TODO logout
-                default:
-                    System.out.println("Try to enter menu item again ");
-                    menuItemReader();
-            }
-            this.showMenu();
-        } else {
-            switch (pi.getMenuItem()) {
-                case 1:
-                    // get flight for 24 hours
-                    getNearestFlight();
-                    logger.add("sdfdsf", "asdsd");
-                    break;
-                case 2:
-                    // get flight by id
-                    // then show all the info about flight(date, time, destination, free seats)
-                    getFlightByIdAndShowIt();
-                    break;
-                case 3:
-                    // Search for the flight and booking
-                    searchAndBooking();
-                    break;
-                case 4:
-                    // cancel booking
-                    String flightId = pi.getBookingId();
-                    bc.cancelBooking(flightId);
-                    // TODO
-                    //fc.returnSeats(flightId);
-                    break;
-                case 5:
-                    // get my bookings
-                    String name = pi.getName();
-                    String surname = pi.getSurname();
-                    System.out.println(bc.getFlightsOfPassenger(new Passenger(name, surname)));
-                    break;
-                case 6:
-                    // exit
-                    fc.save();
-                    bc.save();
-                    logger.save();
-                    System.exit(1);
-                    break;
-                default:
-                    System.out.println("Try to enter menu item again ");
-                    menuItemReader();
-            }
-            this.showMenu();
+                }
+            default:
+                System.out.println("Try to enter menu item again ");
+                menuItemReader();
         }
-
-
+        this.showMenu();
     }
 }

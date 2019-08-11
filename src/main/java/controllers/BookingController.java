@@ -32,7 +32,7 @@ public class BookingController {
         return service.getFlightsOfPassenger(passenger);
     }
 
-    public boolean cancelBooking(String bookingId) {
+    public Booking cancelBooking(String bookingId) {
         return service.cancelBooking(bookingId);
     }
 
