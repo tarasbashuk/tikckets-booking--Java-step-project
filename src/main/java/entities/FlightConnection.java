@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class FlightConnection implements Serializable, AirTrip {
     private final ArrayList<Flight> storage;
@@ -38,6 +39,9 @@ public class FlightConnection implements Serializable, AirTrip {
         return (citiesMatch & !noTimeToTransfer & !tooLongWaiting);
     }
 
+    public ArrayList<Flight> getDirectFlights(){
+        return new ArrayList<>(storage);
+    }
 
     @Override
     public String getDestination() {
@@ -73,9 +77,16 @@ public class FlightConnection implements Serializable, AirTrip {
                 .orElse(0);
     }
 
-    public ArrayList<Flight> getDirectFlights(){
-        return new ArrayList<>(storage);
+    @Override
+    public String toString(){
+        List<Flight> flights = getDirectFlights();
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Flight connection %s of %d flights %s --> %s:\n", getFlightNumber(), flights.size(), getFrom(), getDestination()));
+        flights.forEach(obj -> sb.append("--- ").append(obj).append("\n"));
+        return sb.toString();
     }
+
+
 
     public static void main(String[] args) throws ParseException {
         Flight f1 = new Flight("KB755","kyiv", "berlin", "12.09.2019-12:00", "12.09.2019-16:00", 100);
@@ -83,11 +94,10 @@ public class FlightConnection implements Serializable, AirTrip {
         Flight f3 = new Flight("BM200","paris", "madrid", "13.09.2019-04:00", "13.09.2019-06:00", 250);
         Flight f4 = new Flight("KT755","madrid", "los-angeles", "13.09.2019-08:00", "13.09.2019-16:00", 120);
 
-//        System.out.println((f1.getArrival().getTime() - f2.getDepart().getTime())/1000/60/60);
         FlightConnection fc1 = new FlightConnection(f1, f2);
         FlightConnection fc2 = new FlightConnection(f3, f4);
 
         FlightConnection fc3 = new FlightConnection(fc1, fc2);
-        fc3.getDirectFlights().forEach(System.out::println);
+        System.out.println(fc3);
     }
 }
