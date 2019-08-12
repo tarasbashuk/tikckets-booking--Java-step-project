@@ -101,19 +101,19 @@ class BookingServiceTest {
         assertFalse(flights.contains(flight));
     }
 
-    @Test
-    void cancelBooking_by_id() {
-        Booking bTest = service.getAllBookings().get(0);
-        String flight = bTest.getFlight();
-        assertTrue(service.cancelBooking(bTest.getId()));
-        List<Booking> result = service.getAllBookings();
-        assertEquals(2, result.size());
-        List<String> flights = result
-                .stream()
-                .map(Booking::getFlight)
-                .collect(Collectors.toList());
-        assertFalse(flights.contains(flight));
-    }
+//    @Test
+//    void cancelBooking_by_id() {
+//        Booking bTest = service.getAllBookings().get(0);
+//        String flight = bTest.getFlight();
+//        assertTrue(service.cancelBooking(bTest.getId()));
+//        List<Booking> result = service.getAllBookings();
+//        assertEquals(2, result.size());
+//        List<String> flights = result
+//                .stream()
+//                .map(Booking::getFlight)
+//                .collect(Collectors.toList());
+//        assertFalse(flights.contains(flight));
+//    }
 
     @Test
     void save_restore_from_file() {

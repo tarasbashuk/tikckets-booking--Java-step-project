@@ -1,4 +1,5 @@
 import controllers.BookingController;
+import logger.Logger;
 import view.ConsoleView;
 import view.PassengerInputs;
 
@@ -8,5 +9,7 @@ public class Main {
 
         ConsoleView table = new ConsoleView();
         table.startApp();
+//
+
     }
 }

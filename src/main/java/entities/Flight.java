@@ -3,13 +3,16 @@ package entities;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Flight implements Serializable {
+public class Flight implements Serializable, AirTrip {
     private final String flightNumber;
     private final String from;
     private final String destination;
-    private final Date date;
+    private final Date depart;
+    private final Date arrival;
     private int seats;
 
     private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy-HH:mm");
@@ -17,16 +20,13 @@ public class Flight implements Serializable {
     private SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
 
-    public Flight(String flightNumber, String from, String destination, String date, int seats) throws ParseException, IllegalArgumentException {
-        if (flightNumber != null && from != null && destination != null && date != null && seats >= 0) {
-            this.flightNumber = flightNumber;
-            this.from = from;
-            this.destination = destination;
-            this.date = format.parse(date);
-            this.seats = seats;
-        } else {
-            throw new IllegalArgumentException("Invalid arguments: null is not accepted");
-        }
+    public Flight(String flightNumber, String from, String destination, String depart, String arrival, int seats) throws ParseException {
+        this.flightNumber = flightNumber;
+        this.from = from;
+        this.destination = destination;
+        this.depart = format.parse(depart);
+        this.arrival = format.parse(arrival);
+        this.seats = seats;
     }
 
     public String getFlightNumber() {
@@ -37,16 +37,30 @@ public class Flight implements Serializable {
         return destination;
     }
 
-    public String getDateString() {
-        return formatDate.format(date);
+    @Override
+    public String getFrom() {
+        return from;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDepartString() {
+        return formatDate.format(depart);
     }
 
-    public String getTime() {
-        return formatTime.format(date);
+    public Date getDepart() {
+        return depart;
+    }
+
+    public String getDepartTime() {
+        return formatTime.format(depart);
+    }
+
+    @Override
+    public Date getArrival() {
+        return arrival;
+    }
+
+    public String getArrivalTime() {
+        return formatTime.format(arrival);
     }
 
     public int getSeats() {
@@ -60,9 +74,14 @@ public class Flight implements Serializable {
         this.seats -= bookedSeats;
         return true;
     }
-
     public void returnSeats(int bookedSeats) {
         this.seats += bookedSeats;
+    }
+
+    public List<Flight> getDirectFlights(){
+        List<Flight> result = new ArrayList<>();
+        result.add(this);
+        return result;
     }
 
 
@@ -75,10 +94,14 @@ public class Flight implements Serializable {
         sb.append(from);
         sb.append(", to: ");
         sb.append(destination);
-        sb.append(", date: ");
-        sb.append(formatDate.format(date));
+        sb.append(", departure: ");
+        sb.append(formatDate.format(depart));
         sb.append(", at: ");
-        sb.append(formatTime.format(date));
+        sb.append(getDepartTime());
+        sb.append(", arrival: ");
+        sb.append(formatDate.format(arrival));
+        sb.append(", at: ");
+        sb.append(getArrivalTime());
         sb.append(", seats available: ");
         sb.append(seats);
         sb.append("}");
@@ -100,10 +123,4 @@ public class Flight implements Serializable {
         return this.flightNumber.hashCode();
     }
 
-
-    public static void main(String[] args) throws ParseException {
-       Flight flight = new Flight("XX222", "barcelona", "kyiv", "05.08.2019-12:00", 100);
-        System.out.println(flight.getDate());
-        System.out.println(flight.hashCode());
-    }
 }
