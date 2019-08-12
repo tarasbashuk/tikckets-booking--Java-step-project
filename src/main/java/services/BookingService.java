@@ -52,7 +52,7 @@ public class BookingService {
                 .collect(Collectors.toList());
     }
 
-    public boolean cancelBooking(String bookingId) {
+    public Booking cancelBooking(String bookingId) {
         return data.remove(bookingId);
     }
 

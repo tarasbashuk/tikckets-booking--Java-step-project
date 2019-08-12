@@ -45,12 +45,12 @@ public class PassengerInputs {
     }
 
     public String getName() {
-        System.out.println("Enter your name");
+        System.out.println("Enter the name of passenger");
         return scan.next();
     }
 
     public String getSurname() {
-        System.out.println("Enter your surname");
+        System.out.println("Enter the surname of passenger");
         return scan.next();
     }
 

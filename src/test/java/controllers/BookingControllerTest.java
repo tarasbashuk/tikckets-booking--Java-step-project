@@ -102,19 +102,19 @@ class BookingControllerTest {
         assertFalse(flights.contains(flight));
     }
 
-    @Test
-    void cancelBooking_by_id() {
-        Booking bTest = controller.getAllBookings().get(0);
-        String flight = bTest.getFlight();
-        assertTrue(controller.cancelBooking(bTest.getId()));
-        List<Booking> result = controller.getAllBookings();
-        assertEquals(2, result.size());
-        List<String> flights = result
-                .stream()
-                .map(Booking::getFlight)
-                .collect(Collectors.toList());
-        assertFalse(flights.contains(flight));
-    }
+//    @Test
+//    void cancelBooking_by_id() {
+//        Booking bTest = controller.getAllBookings().get(0);
+//        String flight = bTest.getFlight();
+//        assertTrue(controller.cancelBooking(bTest.getId()));
+//        List<Booking> result = controller.getAllBookings();
+//        assertEquals(2, result.size());
+//        List<String> flights = result
+//                .stream()
+//                .map(Booking::getFlight)
+//                .collect(Collectors.toList());
+//        assertFalse(flights.contains(flight));
+//    }
 
     @Test
     void save_restore_from_file() {
