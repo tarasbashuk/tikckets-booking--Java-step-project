@@ -85,7 +85,7 @@ public class FlightService {
         return data.update(flight);
     }
 
-    public List<Flight> getAllTripsWithinTimeRange(Date d1, Date d2){
+    public List<Flight> getAllFlightsWithinTimeRange(Date d1, Date d2){
         return data
                 .getAll()
                 .stream()

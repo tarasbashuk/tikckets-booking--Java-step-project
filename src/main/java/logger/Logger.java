@@ -1,6 +1,6 @@
 package logger;
 
-import sun.rmi.runtime.Log;
+//import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.util.ArrayList;
