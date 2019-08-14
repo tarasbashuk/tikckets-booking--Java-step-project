@@ -1,7 +1,6 @@
 package services;
 
 import dao.FlightDAO;
-import entities.AirTrip;
 import entities.Flight;
 
 import java.io.File;
@@ -25,7 +24,7 @@ public class FlightService {
         return data.getAll();
     }
 
-    public List<AirTrip> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
+    public List<Flight> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
         return data
                 .getAll()
                 .stream()
@@ -89,7 +88,7 @@ public class FlightService {
         return data
                 .getAll()
                 .stream()
-                .filter(trip->trip.getDepart().after(d1) & trip.getArrival().before(d2))
+                .filter(trip->trip.getDepart().after(d1) & trip.getDepart().before(d2))
                 .collect(Collectors.toList());
     }
 
