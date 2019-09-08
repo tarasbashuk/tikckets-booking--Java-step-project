@@ -57,9 +57,11 @@ public class FlightController {
 
         FlightController flightMgr = new FlightController();
 
+//        System.out.println(flightMgr.getSuitableFlights("barcelona", "05.08.2019", 3));
         System.out.println(flightMgr.getAllFlights());
-
-        System.out.println(flightMgr.getSuitableFlights("barcelona", "05.08.2019", 3));
-        System.out.println(flightMgr.getNearestFlights());
+//        flightMgr.bookSeats(107, "KM865");
+//        System.out.println(flightMgr.getNearestFlights());
+//        flightMgr.returnSeats(100, "KM865");
+//        System.out.println(flightMgr.getNearestFlights());
     }
 }
