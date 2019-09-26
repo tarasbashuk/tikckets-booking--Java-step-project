@@ -76,20 +76,4 @@ public class FlightController {
     public void save() {
         service.save();
     }
-
-
-// TODO Delete before release
-
-    public static void main(String[] args) throws ParseException {
-        System.out.println("=========CREATING THREE INITIAL FLIGHTS DEV PURPOSE ONLY============");
-
-        FlightController flightMgr = new FlightController();
-
-//        System.out.println(flightMgr.getAllFlights());
-
-//        List<Flight> flights = flightMgr.getAllTripsWithinTimeRange("06.08.2019", "08.08.2019");
-//        List<Flight> flights = flightMgr.getAllTripsWithinTimeRange("06.08.2019", "08.08.2019");
-        List<AirTrip> flights = flightMgr.getSuitableFlights("amsterdam","05.08.2019",1);
-        System.out.println(flights);
-    }
 }

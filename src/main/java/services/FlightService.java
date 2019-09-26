@@ -66,7 +66,7 @@ public class FlightService {
     }
 
     public boolean bookSeats(int requiredSeatsQuantity, String flightNumber) {
-        if (flightNumber == null) throw new IllegalArgumentException("Invalid arguments: flight number can't be null");
+        if (flightNumber == null || requiredSeatsQuantity <= 0) throw new IllegalArgumentException("Invalid arguments: flight number can't be null and seats cant be less than 1");
         Flight flight = data.get(flightNumber);
 
         if (!flight.bookSeats(requiredSeatsQuantity)) return false;
