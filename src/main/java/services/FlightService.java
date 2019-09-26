@@ -4,6 +4,7 @@ import dao.FlightDAO;
 import entities.Flight;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -89,6 +90,7 @@ public class FlightService {
                 .getAll()
                 .stream()
                 .filter(trip->trip.getDepart().after(d1) & trip.getDepart().before(d2))
+                .sorted(Comparator.comparing(Flight::getDepart))
                 .collect(Collectors.toList());
     }
 

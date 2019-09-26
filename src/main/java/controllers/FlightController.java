@@ -68,7 +68,12 @@ public class FlightController {
         return true;
     }
 
+    public List<Flight> getAllFlightsWithinTimeRange(Date d1, Date d2) {
+        return service.getAllFlightsWithinTimeRange(d1, d2);
+    }
+
     public void save() {
         service.save();
     }
+
 }
