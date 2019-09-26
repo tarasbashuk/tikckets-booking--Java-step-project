@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class FlightController {
     private final FlightService service;
@@ -27,10 +26,6 @@ public class FlightController {
     public List<Flight> getAllFlights() {
         return service.getAllFlights();
     }
-
-//    public List<Flight> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
-//        return service.getSuitableFlights(destination, date, requiredSeatsQuantity);
-//    }
 
     public List<AirTrip> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
         Date d;

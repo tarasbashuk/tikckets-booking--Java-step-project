@@ -41,7 +41,7 @@ class FlightServiceTest {
         lh3 = new Flight("LH333", "kyiv", "palma", "03.08.2019-12:00", "03.08.2019-15:00", 200);
         lh4 = new Flight("LH444", "kyiv", "madrid", "04.08.2019-22:00", "05.08.2019-00:30", 250);
         lh5 = new Flight("LH555", "kyiv", "tel-aviv", "04.08.2019-23:00", "05.08.2019-01:30", 200);
-        lh6 = new Flight("LH666", "kyiv", "new-york", "05.08.2019-12:00","05.08.2019-23:45",  250);
+        lh6 = new Flight("LH666", "kyiv", "new-york", "05.08.2019-12:00", "05.08.2019-23:45", 250);
         lh7 = new Flight("LH777", "kyiv", "wroclaw", "12.08.2019-14:15", "12.08.2019-15:10", 200);
         lh8 = new Flight("LH888", "kyiv", "prague", "13.08.2019-18:00", "13.08.2019-20:00", 250);
         lh9 = new Flight("LH999", "kyiv", "oslo", "14.08.2019-19:00", "14.08.2019-121:00", 200);
@@ -112,14 +112,14 @@ class FlightServiceTest {
     void bookSeats() {
         int initialSeats = flService.getFlightByNumber("LH123").getSeats();
         flService.bookSeats(10, "LH123");
-        assertEquals( initialSeats - 10, flService.getFlightByNumber("LH123").getSeats());
+        assertEquals(initialSeats - 10, flService.getFlightByNumber("LH123").getSeats());
     }
 
     @Test
     void returnSeats() {
         int initialSeats = flService.getFlightByNumber("LH123").getSeats();
         flService.returnSeats(10, "LH123");
-        assertEquals( initialSeats + 10, flService.getFlightByNumber("LH123").getSeats());
+        assertEquals(initialSeats + 10, flService.getFlightByNumber("LH123").getSeats());
     }
 
 
@@ -130,7 +130,6 @@ class FlightServiceTest {
         referenceArray.add(lh4);
         referenceArray.add(lh5);
         referenceArray.add(lh6);
-        assertEquals(referenceArray, flService.getAllTripsWithinTimeRange(format.parse("03.08.2019-00:00"), format.parse("05.08.2019-23:59")));
+        assertEquals(referenceArray, flService.getAllFlightsWithinTimeRange(format.parse("03.08.2019-00:00"), format.parse("05.08.2019-23:59")));
     }
-
 }
