@@ -1,12 +1,15 @@
 package controllers;
 
-import dao.FlightDAO;
 import entities.AirTrip;
 import entities.Flight;
+import helpers.FlightsScanner;
 import services.FlightService;
 
 import java.io.File;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FlightController {
@@ -25,7 +28,15 @@ public class FlightController {
     }
 
     public List<AirTrip> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
-        return service.getSuitableFlights(destination, date, requiredSeatsQuantity);
+        Date d;
+        try {
+            d = new SimpleDateFormat("dd.MM.yyyy").parse(date);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(String.format("Invalid date format parameter %s", date));
+        }
+
+        List<Flight> options = service.getAllFlightsWithinTimeRange(d, new Date(d.getTime()+(1000*60*60*72)));
+        return new FlightsScanner("kyiv",destination, new ArrayList<>(options)).findAllConnections(d, requiredSeatsQuantity);
     }
 
     public Flight getFlightByNumber(String flightNumber) {
@@ -37,31 +48,32 @@ public class FlightController {
     }
 
     public boolean bookSeats(int requiredSeatsQuantity, String flightNumber) {
-        return service.bookSeats(requiredSeatsQuantity, flightNumber);
+        List<String> backup = new ArrayList<>();
+        for (String flight: flightNumber.split("&")) {
+            if (!service.bookSeats(requiredSeatsQuantity, flight)){
+                backup.forEach(s -> service.returnSeats(requiredSeatsQuantity, flight));
+                return false;
+            }
+            backup.add(flight);
+        }
+            return true;
     }
 
     public boolean returnSeats(int returningSeatsQuantity, String flightNumber) {
-        return service.returnSeats(returningSeatsQuantity, flightNumber);
+        for (String flight: flightNumber.split("&")) {
+            if (!service.returnSeats(returningSeatsQuantity, flight)){
+                return false;
+            }
+        }
+        return true;
     }
 
+    public List<Flight> getAllFlightsWithinTimeRange(Date d1, Date d2) {
+        return service.getAllFlightsWithinTimeRange(d1, d2);
+    }
 
     public void save() {
         service.save();
     }
 
-
-// TODO Delete before release
-
-    public static void main(String[] args) throws ParseException {
-        System.out.println("=========CREATING THREE INITIAL FLIGHTS DEV PURPOSE ONLY============");
-
-        FlightController flightMgr = new FlightController();
-
-//        System.out.println(flightMgr.getSuitableFlights("barcelona", "05.08.2019", 3));
-        System.out.println(flightMgr.getAllFlights());
-//        flightMgr.bookSeats(107, "KM865");
-//        System.out.println(flightMgr.getNearestFlights());
-//        flightMgr.returnSeats(100, "KM865");
-//        System.out.println(flightMgr.getNearestFlights());
-    }
 }
