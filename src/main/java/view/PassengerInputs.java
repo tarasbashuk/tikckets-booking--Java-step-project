@@ -1,7 +1,7 @@
 package view;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.TypeCheckError;
-import sun.awt.windows.WPrinterJob;
+//import com.sun.org.apache.xalan.internal.xsltc.compiler.util.TypeCheckError;
+//import sun.awt.windows.WPrinterJob;
 
 import java.text.ParseException;
 import java.util.InputMismatchException;

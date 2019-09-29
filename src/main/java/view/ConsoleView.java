@@ -63,10 +63,10 @@ public class ConsoleView {
         System.out.println("2.Check info about flight;");
         System.out.println("3.Searching and Booking;");
         System.out.println("4.Cancel Booking;");
-        System.out.println("5.My Flights ;");
+        System.out.println("5.My Flights;");
         System.out.println("6.Exit;");
         if (isAuthorized) {
-            System.out.println("7.Logout");
+            System.out.println("7.Logout;");
         }
         this.menuItemReader();
     }
