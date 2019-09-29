@@ -1,10 +1,10 @@
 package services;
 
 import dao.FlightDAO;
-import entities.AirTrip;
 import entities.Flight;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +25,7 @@ public class FlightService {
         return data.getAll();
     }
 
-    public List<AirTrip> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
+    public List<Flight> getSuitableFlights(String destination, String date, int requiredSeatsQuantity) {
         return data
                 .getAll()
                 .stream()
@@ -67,7 +67,7 @@ public class FlightService {
     }
 
     public boolean bookSeats(int requiredSeatsQuantity, String flightNumber) {
-        if (flightNumber == null) throw new IllegalArgumentException("Invalid arguments: flight number can't be null");
+        if (flightNumber == null || requiredSeatsQuantity <= 0) throw new IllegalArgumentException("Invalid arguments: flight number can't be null and seats cant be less than 1");
         Flight flight = data.get(flightNumber);
 
         if (!flight.bookSeats(requiredSeatsQuantity)) return false;
@@ -85,11 +85,12 @@ public class FlightService {
         return data.update(flight);
     }
 
-    public List<Flight> getAllTripsWithinTimeRange(Date d1, Date d2){
+    public List<Flight> getAllFlightsWithinTimeRange(Date d1, Date d2){
         return data
                 .getAll()
                 .stream()
-                .filter(trip->trip.getDepart().after(d1) & trip.getArrival().before(d2))
+                .filter(trip->trip.getDepart().after(d1) & trip.getDepart().before(d2))
+                .sorted(Comparator.comparing(Flight::getDepart))
                 .collect(Collectors.toList());
     }
 

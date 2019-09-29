@@ -1,5 +1,7 @@
 package entities;
 
+import helpers.ConPossible;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.*;
@@ -20,7 +22,7 @@ public class FlightConnection implements Serializable, AirTrip {
                 storage.add(flight);
                 flightNumber = flight.getFlightNumber();
             } else {
-                if (validFlight(flight)) {
+                if (new ConPossible(this).test(flight)) {
                     storage.add(flight);
                     flightNumber += "&" + flight.getFlightNumber();
                 } else {

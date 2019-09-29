@@ -21,12 +21,16 @@ public class Flight implements Serializable, AirTrip {
 
 
     public Flight(String flightNumber, String from, String destination, String depart, String arrival, int seats) throws ParseException {
+        if (flightNumber != null && from != null && destination != null && depart != null && arrival != null && seats >= 0) {
         this.flightNumber = flightNumber;
         this.from = from;
         this.destination = destination;
         this.depart = format.parse(depart);
         this.arrival = format.parse(arrival);
         this.seats = seats;
+        } else {
+            throw new IllegalArgumentException("Invalid arguments: null is not accepted");
+        }
     }
 
     public String getFlightNumber() {
